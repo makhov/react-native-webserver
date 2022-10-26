@@ -13,7 +13,7 @@ export interface Request {
 
 export interface Response {
   send: (status?: number, contentType?: string, content?: string) => void;
-  sendWithHeaders: (status?: number, contentType?: string, content?: string, headers?: Map<string, string>) => void;
+  sendWithHeaders: (status?: number, contentType?: string, content?: string, headers?: Record<string, string>) => void;
   sendFile: (path: string) => void;
 }
 
