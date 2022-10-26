@@ -151,6 +151,33 @@ RCT_EXPORT_METHOD(respond: (NSString *) requestId
     completionBlock(response);
 }
 
+RCT_EXPORT_METHOD(respondWithHeaders: (NSString *) requestId
+                  code: (NSInteger) code
+                  type: (NSString *) type
+                  body: (NSString *) body
+                  headers: (NSDictionary *) headers)
+{
+    NSData* data = [body dataUsingEncoding:NSUTF8StringEncoding];
+    GCDWebServerDataResponse* response = [[GCDWebServerDataResponse alloc] initWithData:data contentType:type];
+    response.statusCode = code;
+    [response setValue:@"*" forAdditionalHeader:(@"Access-Control-Allow-Origin")];
+    [response setValue:@"*" forAdditionalHeader:(@"Access-Control-Allow-Headers")];
+    [response setValue:@"*" forAdditionalHeader:(@"Access-Control-Allow-`Methods`")];
+    for (NSString *key in headers) {
+        [response setValue:headers[key] forAdditionalHeader:(key)];
+    }
+    
+    response.gzipContentEncodingEnabled = NO;
+
+    GCDWebServerCompletionBlock completionBlock = nil;
+    @synchronized (self) {
+        completionBlock = [_completionBlocks objectForKey:requestId];
+        [_completionBlocks removeObjectForKey:requestId];
+    }
+
+    completionBlock(response);
+}
+
 RCT_EXPORT_METHOD(responseFile: (NSString *) requestId
                   path: (NSString *) path)
 {

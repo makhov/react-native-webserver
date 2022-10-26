@@ -66,6 +66,12 @@ public class Server extends NanoHTTPD {
         responses.put(requestId, newFixedLengthResponse(Status.lookup(code), type, body));
     }
 
+    public void respondWithHeaders(String requestId, int code, String type, String body, Map<String, String> headers) {
+        Response resp = newFixedLengthResponse(Status.lookup(code), type, body);
+        headers.forEach((k, v) -> resp.addHeader(k, v));
+        responses.put(requestId, resp);
+    }
+
     private WritableMap fillRequestMap(IHTTPSession session, String requestId) throws Exception {
         Method method = session.getMethod();
         WritableMap request = Arguments.createMap();
