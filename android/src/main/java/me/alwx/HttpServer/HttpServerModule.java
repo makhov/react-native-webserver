@@ -52,6 +52,13 @@ public class HttpServerModule extends ReactContextBaseJavaModule implements Life
         }
     }
 
+    @ReactMethod
+    public void respondWithHeaders(String requestId, int code, String type, String body, Map<String, String> headers) {
+        if (server != null) {
+            server.respondWithHeaders(requestId, code, type, body, headers);
+        }
+    }
+
     @Override
     public void onHostResume() {
 

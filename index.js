@@ -21,6 +21,9 @@ export class HttpServer  {
         send: (status, contentType, content) => {
           HttpServerModule.respond(request.requestId, status, contentType, content);
         },
+        sendWithHeaders: (status, contentType, content, headers) => {
+          HttpServerModule.respondWithHeaders(request.requestId, status, contentType, content, headers);
+        },
         sendFile: path => HttpServerModule.responseFile(request.requestId, path),
       });
     });
