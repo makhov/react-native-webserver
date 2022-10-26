@@ -164,7 +164,7 @@ RCT_EXPORT_METHOD(respondWithHeaders: (NSString *) requestId
     [response setValue:@"*" forAdditionalHeader:(@"Access-Control-Allow-Headers")];
     [response setValue:@"*" forAdditionalHeader:(@"Access-Control-Allow-`Methods`")];
     for (NSString *key in headers) {
-        [response setValue:headers[key] forAdditionalHeader:(key)];
+        [response setValue:headers[key] forAdditionalHeader:key];
     }
     
     response.gzipContentEncodingEnabled = NO;
